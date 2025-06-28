@@ -29,7 +29,8 @@
       <button onclick="generarImagen()" class="mt-6 w-full bg-blue-600 text-white p-2 rounded font-semibold hover:bg-blue-700">Generar Imagen</button>
     </div>
 
-    <div id="mensajeMovil" class="hidden text-center text-sm text-gray-700 italic mb-2">Mantené presionado sobre la imagen para guardarla en tu galería</div>
+    <div id="mensajeMovil" class="hidden text-center text-sm text-gray-700 italic mb-2">Mantené presionado sobre la imagen o tocá el botón para abrirla y descargarla</div>
+    <a id="abrirMovil" href="#" target="_blank" class="hidden mb-2 block text-center bg-blue-500 text-white p-2 rounded font-semibold hover:bg-blue-600">Abrir imagen en otra pestaña</a>
 
     <div id="preview" class="hidden border rounded overflow-hidden"></div>
     <a id="descargar" class="hidden mt-4 block text-center bg-green-600 text-white p-2 rounded font-semibold hover:bg-green-700" download="menu.png">Descargar Imagen</a>
@@ -41,6 +42,7 @@
       const opcion2 = document.getElementById('opcion2').value;
       const fondoInput = document.getElementById('fondo');
       const mensajeMovil = document.getElementById('mensajeMovil');
+      const abrirMovil = document.getElementById('abrirMovil');
 
       if (!fondoInput.files[0]) return alert("Subí una imagen de fondo.");
 
@@ -111,13 +113,16 @@
 
           if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
             document.getElementById('preview').innerHTML = `<img src="${imgData}" alt="Menú generado" class="w-full h-auto rounded" />`;
-            document.getElementById('descargar').classList.add('hidden');
+            abrirMovil.href = imgData;
+            abrirMovil.classList.remove('hidden');
             mensajeMovil.classList.remove('hidden');
+            document.getElementById('descargar').classList.add('hidden');
           } else {
             const link = document.getElementById('descargar');
             link.href = imgData;
             link.classList.remove('hidden');
             mensajeMovil.classList.add('hidden');
+            abrirMovil.classList.add('hidden');
           }
         });
       };

@@ -29,7 +29,7 @@
       <button onclick="generarImagen()" class="mt-6 w-full bg-blue-600 text-white p-2 rounded font-semibold hover:bg-blue-700">Generar Imagen</button>
     </div>
 
-    <div id="preview" class="hidden border rounded overflow-hidden" style="width: 100%; height: 100px;"></div>
+    <div id="preview" class="hidden border rounded overflow-hidden"></div>
     <a id="descargar" class="hidden mt-4 block text-center bg-green-600 text-white p-2 rounded font-semibold hover:bg-green-700" download="menu.png">Descargar Imagen</a>
   </div>
 
@@ -52,64 +52,73 @@
         container.style.overflow = 'hidden';
 
         // Fondo
-const bg = document.createElement('div');
-bg.style.backgroundImage = `url('${fondoUrl}')`;
-bg.style.backgroundSize = 'cover';
-bg.style.backgroundPosition = 'center';
-bg.style.width = '100%';
-bg.style.height = '100%';
-bg.style.position = 'absolute';
-bg.style.top = '0';
-bg.style.left = '0';
+        const bg = document.createElement('div');
+        bg.style.backgroundImage = `url('${fondoUrl}')`;
+        bg.style.backgroundSize = 'cover';
+        bg.style.backgroundPosition = 'center';
+        bg.style.width = '100%';
+        bg.style.height = '100%';
+        bg.style.position = 'absolute';
+        bg.style.top = '0';
+        bg.style.left = '0';
 
-// Overlay oscuro
-const overlay = document.createElement('div');
-overlay.style.position = 'absolute';
-overlay.style.top = '0';
-overlay.style.left = '0';
-overlay.style.width = '100%';
-overlay.style.height = '100%';
-overlay.style.backgroundColor = 'black';
-overlay.style.opacity = '0.5';
-overlay.style.zIndex = '1';
+        // Overlay oscuro
+        const overlay = document.createElement('div');
+        overlay.style.position = 'absolute';
+        overlay.style.top = '0';
+        overlay.style.left = '0';
+        overlay.style.width = '100%';
+        overlay.style.height = '100%';
+        overlay.style.backgroundColor = 'black';
+        overlay.style.opacity = '0.5';
+        overlay.style.zIndex = '1';
 
-// Contenido
-const content = document.createElement('div');
-content.style.position = 'absolute';
-content.style.top = '0';
-content.style.left = '0';
-content.style.width = '100%';
-content.style.height = '100%';
-content.style.padding = '80px';
-content.style.boxSizing = 'border-box';
-content.style.color = 'white';
-content.style.zIndex = '2';
-content.innerHTML = `
-  <div style="margin-left:calc(15% - 80px);margin-top:200px;font-size:150px;font-weight:800;line-height:1" class="anton">MENÚ</div>
-  <div style="margin-left:calc(15% - 80px);font-size:40px;margin-top:42px;">${new Date().toLocaleDateString('es-UY', { day: '2-digit', month: '2-digit' }).replace('/', '.')}</div>
-  <div style="margin-left:calc(15% - 80px);margin-top:96px;font-size:50px;color:#00BFFF;font-weight:600;">OPCIÓN 1:</div>
-  <div style="margin-left:calc(15% - 80px);font-size:50px;width:85%;margin-top:25px;max-width:880px;">${opcion1}</div>
-  <div style="margin-left:calc(15% - 80px);margin-top:96px;font-size:50px;color:#00BFFF;font-weight:600;">OPCIÓN 2:</div>
-  <div style="margin-left:calc(15% - 80px);font-size:50px;margin-top:25px;width:85%;max-width:880px;">${opcion2}</div>
-  <div style="position:absolute;margin-top:100px;left:15%;width:70%;height:1px;background-color:white;"></div>
-  <div style="position:absolute;margin-top:220px;transform:translate(-50%, -50%);left:50%;font-size:45px;font-weight:600;">¡Hacenos tu pedido!</div>
-  <div style="position:absolute;margin-top:320px;transform:translate(-50%, -50%);left:50%;font-size:45px;">092 544 718</div>
-  <div style="position:absolute;margin-top:420px;transform:translate(-50%, -50%);left:50%;font-size:45px;">Sarandí 575</div>
-  <img src="logoElOnce.png" style="position:absolute;top:80px;right:80px;width:110px" />
-`;
+        // Contenido
+        const content = document.createElement('div');
+        content.style.position = 'absolute';
+        content.style.top = '0';
+        content.style.left = '0';
+        content.style.width = '100%';
+        content.style.height = '100%';
+        content.style.padding = '80px';
+        content.style.boxSizing = 'border-box';
+        content.style.color = 'white';
+        content.style.zIndex = '2';
+        content.innerHTML = `
+          <div style="margin-left:calc(15% - 80px);margin-top:200px;font-size:150px;font-weight:800;line-height:1" class="anton">MENÚ</div>
+          <div style="margin-left:calc(15% - 80px);font-size:40px;margin-top:42px;">${new Date().toLocaleDateString('es-UY', { day: '2-digit', month: '2-digit' }).replace('/', '.')}</div>
+          <div style="margin-left:calc(15% - 80px);margin-top:96px;font-size:50px;color:#00BFFF;font-weight:600;">OPCIÓN 1:</div>
+          <div style="margin-left:calc(15% - 80px);font-size:50px;width:85%;margin-top:25px;max-width:880px;">${opcion1}</div>
+          <div style="margin-left:calc(15% - 80px);margin-top:96px;font-size:50px;color:#00BFFF;font-weight:600;">OPCIÓN 2:</div>
+          <div style="margin-left:calc(15% - 80px);font-size:50px;margin-top:25px;width:85%;max-width:880px;">${opcion2}</div>
+          <div style="position:absolute;margin-top:100px;left:15%;width:70%;height:1px;background-color:white;"></div>
+          <div style="position:absolute;margin-top:220px;transform:translate(-50%, -50%);left:50%;font-size:45px;font-weight:600;">¡Hacenos tu pedido!</div>
+          <div style="position:absolute;margin-top:320px;transform:translate(-50%, -50%);left:50%;font-size:45px;">092 544 718</div>
+          <div style="position:absolute;margin-top:420px;transform:translate(-50%, -50%);left:50%;font-size:45px;">Sarandí 575</div>
+          <img src="logoElOnce.png" style="position:absolute;top:80px;right:80px;width:110px" />
+        `;
 
-container.appendChild(bg);
-container.appendChild(overlay);
-container.appendChild(content);
-
+        container.appendChild(bg);
+        container.appendChild(overlay);
+        container.appendChild(content);
 
         document.getElementById('preview').innerHTML = '';
         document.getElementById('preview').appendChild(container);
         document.getElementById('preview').classList.remove('hidden');
 
         html2canvas(container).then(canvas => {
-          document.getElementById('descargar').classList.remove('hidden');
-          document.getElementById('descargar').href = canvas.toDataURL("image/png");
+          const imgData = canvas.toDataURL("image/png");
+
+          if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+            // Mostrar imagen para tocar y guardar en móviles
+            document.getElementById('preview').innerHTML = `<img src="${imgData}" alt="Menú generado" class="w-full h-auto rounded" />`;
+            document.getElementById('descargar').classList.add('hidden');
+          } else {
+            // Descarga automática en escritorio
+            const link = document.getElementById('descargar');
+            link.href = imgData;
+            link.classList.remove('hidden');
+          }
         });
       };
       reader.readAsDataURL(fondoInput.files[0]);

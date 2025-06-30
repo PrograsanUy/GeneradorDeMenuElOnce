@@ -13,7 +13,26 @@
   </style>
 </head>
 <body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
-  <div class="w-full max-w-md">
+
+  <!-- LOGIN -->
+  <div id="login" class="w-full max-w-sm bg-white shadow rounded p-6">
+    <div class="flex justify-center mb-4">
+      <img src="logoElOnce.png" alt="Logo El Once" class="w-24 h-auto">
+    </div>
+    <h2 class="text-xl font-semibold text-center mb-4">Acceso al Generador</h2>
+    <input id="usuario" class="w-full border rounded p-2 mb-4" type="text" placeholder="Usuario" />
+    <input id="contrasena" class="w-full border rounded p-2 mb-4" type="password" placeholder="Contraseña" />
+    <button onclick="validarLogin()" class="w-full bg-blue-600 text-white p-2 rounded font-semibold hover:bg-blue-700">Ingresar</button>
+  </div>
+
+  <!-- LOADING -->
+  <div id="loading" class="hidden flex flex-col items-center justify-center">
+    <img src="logoElOnce.png" alt="Cargando..." class="w-24 h-auto mb-4 animate-bounce">
+    <p class="text-gray-700 font-medium">Cargando el generador...</p>
+  </div>
+
+  <!-- APP PRINCIPAL -->
+  <div id="app" class="hidden w-full max-w-md">
     <h1 class="text-2xl font-bold mb-4 text-center">Generador de Menú - El Once</h1>
 
     <div class="bg-white shadow rounded p-4 mb-4">
@@ -35,6 +54,25 @@
   </div>
 
   <script>
+    const USUARIO = 'elonce';
+    const CONTRASENA = '1234';
+
+    function validarLogin() {
+      const u = document.getElementById('usuario').value;
+      const c = document.getElementById('contrasena').value;
+
+      if (u === USUARIO && c === CONTRASENA) {
+        document.getElementById('login').classList.add('hidden');
+        document.getElementById('loading').classList.remove('hidden');
+        setTimeout(() => {
+          document.getElementById('loading').classList.add('hidden');
+          document.getElementById('app').classList.remove('hidden');
+        }, 1500);
+      } else {
+        alert('Usuario o contraseña incorrectos');
+      }
+    }
+
     function generarImagen() {
       const opcion1 = document.getElementById('opcion1').value;
       const opcion2 = document.getElementById('opcion2').value;
@@ -48,7 +86,7 @@
         const fondoUrl = e.target.result;
 
         const container = document.createElement('div');
-        container.style.width = '540px'; // más liviano para móviles
+        container.style.width = '540px';
         container.style.height = '960px';
         container.style.position = 'relative';
         container.style.overflow = 'hidden';

@@ -28,8 +28,7 @@
     } */
   </style>
 </head>
-<body>
-<!--    class="bg-gray-100 min-h-screen flex items-center justify-center p-4" -->
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
 
   <!-- LOGIN -->
   <div id="login" class="w-full max-w-sm bg-white shadow rounded p-6">
@@ -66,7 +65,7 @@
     </div>
 
     <div id="mensajeMovil" class="hidden text-center text-sm text-gray-700 italic mb-2">Mantené presionado sobre la imagen para guardarla o hacé clic en el botón para descargarla</div>
-    <div id="preview" class="flex justify-center items-center" style="width: 100%;"></div>
+    <div id="preview" class=" justify-center items-center"></div>
     <a id="descargar" class="hidden mt-4 block text-center bg-green-600 text-white p-2 rounded font-semibold hover:bg-green-700" download="menu.png">Descargar Imagen</a>
   </div>
 
@@ -108,7 +107,7 @@
         const fondoUrl = e.target.result;
 
         const container = document.createElement('div');
-        container.style.width = '580px';
+        container.style.width = '540px';
         container.style.height = '960px';
         container.style.position = 'relative';
         container.style.overflow = 'hidden';

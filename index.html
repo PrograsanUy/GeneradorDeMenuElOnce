@@ -10,6 +10,23 @@
   <style>
     body { font-family: 'Montserrat', sans-serif; }
     .anton { font-family: 'Anton', sans-serif; }
+
+    /* Lightbox efecto */
+    #lightbox {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    #lightbox img {
+      max-width: 95%;
+      max-height: 95%;
+      border-radius: 12px;
+    }
   </style>
 </head>
 <body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
@@ -45,12 +62,17 @@
       <label class="block mt-4 mb-2 font-medium">Imagen de fondo</label>
       <input id="fondo" class="w-full" type="file" accept="image/*" />
 
-      <button onclick="generarImagen()" w-full class="mt-6  bg-blue-600 text-white p-2 rounded font-semibold hover:bg-blue-700">Generar Imagen</button>
+      <button onclick="generarImagen()" class="w-full mt-6 bg-blue-600 text-white p-2 rounded font-semibold hover:bg-blue-700">Generar Imagen</button>
     </div>
 
     <div id="mensajeMovil" class="hidden text-center text-sm text-gray-700 italic mb-2">Mantené presionado sobre la imagen para guardarla o hacé clic en el botón para descargarla</div>
-    <div id="preview" class="hidden border rounded overflow-hidden" style="width: 100%; height: 100%;"></div>
+    <div id="preview" class="hidden flex justify-center items-center bg-white p-4 rounded shadow" style="max-width: 100%; overflow: auto;"></div>
     <a id="descargar" class="hidden mt-4 block text-center bg-green-600 text-white p-2 rounded font-semibold hover:bg-green-700" download="menu.png">Descargar Imagen</a>
+  </div>
+
+  <!-- LIGHTBOX -->
+  <div id="lightbox" onclick="cerrarLightbox()">
+    <img id="lightbox-img" src="" alt="Vista Ampliada" />
   </div>
 
   <script>
@@ -149,11 +171,15 @@
             const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
             if (isMobile) {
-              document.getElementById('preview').innerHTML = `<img src="${url}" alt="Menú generado" class="w-full h-auto rounded" />`;
+              document.getElementById('preview').innerHTML = `<img src="${url}" alt="Menú generado" class="w-full max-w-[540px] h-auto rounded shadow cursor-pointer" onclick="abrirLightbox('${url}')" />`;
               document.getElementById('descargar').href = url;
               document.getElementById('descargar').classList.remove('hidden');
               mensajeMovil.classList.remove('hidden');
             } else {
+              canvas.classList.add("w-full", "max-w-[540px]", "h-auto", "rounded", "shadow", "cursor-pointer");
+              canvas.onclick = () => abrirLightbox(url);
+              document.getElementById('preview').innerHTML = '';
+              document.getElementById('preview').appendChild(canvas);
               const link = document.getElementById('descargar');
               link.href = url;
               link.download = 'menu.png';
@@ -164,6 +190,16 @@
         });
       };
       reader.readAsDataURL(fondoInput.files[0]);
+    }
+
+    function abrirLightbox(url) {
+      document.getElementById('lightbox-img').src = url;
+      document.getElementById('lightbox').style.display = 'flex';
+    }
+
+    function cerrarLightbox() {
+      document.getElementById('lightbox').style.display = 'none';
+      document.getElementById('lightbox-img').src = '';
     }
   </script>
 </body>

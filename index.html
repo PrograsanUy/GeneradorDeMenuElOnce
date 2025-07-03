@@ -10,22 +10,6 @@
   <style>
     body { font-family: 'Montserrat', sans-serif; }
     .anton { font-family: 'Anton', sans-serif; }
-
-    /* Lightbox efecto */
-/*     #lightbox {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background-color: rgba(0, 0, 0, 0.8);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-    }
-    #lightbox img {
-      max-width: 100%;
-      max-height: 100%;
-    } */
   </style>
 </head>
 <body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
@@ -58,6 +42,14 @@
       <label class="block mt-4 mb-2 font-medium">Opción 2</label>
       <input id="opcion2" class="w-full border rounded p-2" type="text" placeholder="Ej: Tallarines..." />
 
+      <div class="mt-4">
+        <label class="inline-flex items-center">
+          <input type="checkbox" id="chkGuarnicion" class="mr-2">
+          ¿Agregar guarnición?
+        </label>
+        <input id="guarnicion" class="w-full border rounded p-2 mt-2 hidden" type="text" placeholder="Ej: Papas al horno..." />
+      </div>
+
       <label class="block mt-4 mb-2 font-medium">Imagen de fondo</label>
       <input id="fondo" class="w-full" type="file" accept="image/*" />
 
@@ -65,18 +57,17 @@
     </div>
 
     <div id="mensajeMovil" class="hidden text-center text-sm text-gray-700 italic mb-2">Mantené presionado sobre la imagen para guardarla o hacé clic en el botón para descargarla</div>
-    <div id="preview" class=" justify-center items-center"></div>
+    <div id="preview" class="justify-center items-center"></div>
     <a id="descargar" class="hidden mt-4 block text-center bg-green-600 text-white p-2 rounded font-semibold hover:bg-green-700" download="menu.png">Descargar Imagen</a>
   </div>
-
-  <!-- LIGHTBOX -->
-<!--   <div id="lightbox" onclick="cerrarLightbox()">
-    <img id="lightbox-img" src="" alt="Vista Ampliada" />
-  </div> -->
 
   <script>
     const USUARIO = 'elonce';
     const CONTRASENA = '1234';
+
+    document.getElementById('chkGuarnicion').addEventListener('change', function () {
+      document.getElementById('guarnicion').classList.toggle('hidden', !this.checked);
+    });
 
     function validarLogin() {
       const u = document.getElementById('usuario').value;
@@ -97,6 +88,7 @@
     function generarImagen() {
       const opcion1 = document.getElementById('opcion1').value;
       const opcion2 = document.getElementById('opcion2').value;
+      const guarnicion = document.getElementById('chkGuarnicion').checked ? document.getElementById('guarnicion').value.trim() : '';
       const fondoInput = document.getElementById('fondo');
       const mensajeMovil = document.getElementById('mensajeMovil');
 
@@ -142,13 +134,21 @@
         content.style.boxSizing = 'border-box';
         content.style.color = 'white';
         content.style.zIndex = '2';
+
+        const fontSize = guarnicion ? 22 : 25;
+        const spacing = guarnicion ? 36 : 48;
+        const marginTopMenu = guarnicion ? 70 : 100;
+
         content.innerHTML = `
-          <div style="margin-left:calc(15% - 40px);margin-top:100px;font-size:75px;font-weight:800;line-height:1" class="anton">MENÚ</div>
+          <div style="margin-left:calc(15% - 40px);margin-top:${marginTopMenu}px;font-size:75px;font-weight:800;line-height:1" class="anton">MENÚ</div>
           <div style="margin-left:calc(15% - 40px);font-size:20px;margin-top:21px;">${new Date().toLocaleDateString('es-UY', { day: '2-digit', month: '2-digit' }).replace('/', '.')}</div>
-          <div style="margin-left:calc(15% - 40px);margin-top:48px;font-size:25px;color:#00BFFF;font-weight:600;">OPCIÓN 1:</div>
-          <div style="margin-left:calc(15% - 40px);font-size:25px;width:85%;margin-top:12px;max-width:440px;">${opcion1}</div>
-          <div style="margin-left:calc(15% - 40px);margin-top:48px;font-size:25px;color:#00BFFF;font-weight:600;">OPCIÓN 2:</div>
-          <div style="margin-left:calc(15% - 40px);font-size:25px;margin-top:12px;width:85%;max-width:440px;">${opcion2}</div>
+          <div style="margin-left:calc(15% - 40px);margin-top:${spacing}px;font-size:${fontSize}px;color:#00BFFF;font-weight:600;">OPCIÓN 1:</div>
+          <div style="margin-left:calc(15% - 40px);font-size:${fontSize}px;width:85%;margin-top:12px;max-width:440px;">${opcion1}</div>
+          <div style="margin-left:calc(15% - 40px);margin-top:${spacing}px;font-size:${fontSize}px;color:#00BFFF;font-weight:600;">OPCIÓN 2:</div>
+          <div style="margin-left:calc(15% - 40px);font-size:${fontSize}px;margin-top:12px;width:85%;max-width:440px;">${opcion2}</div>
+          ${guarnicion ? `
+            <div style="margin-left:calc(15% - 40px);margin-top:${spacing}px;font-size:${fontSize}px;color:#00BFFF;font-weight:600;">GUARNICIÓN:</div>
+            <div style="margin-left:calc(15% - 40px);font-size:${fontSize}px;margin-top:12px;width:85%;max-width:440px;">${guarnicion}</div>` : ''}
           <div style="position:absolute;margin-top:50px;left:15%;width:70%;height:1px;background-color:white;"></div>
           <div style="position:absolute;margin-top:110px;transform:translate(-50%, -50%);left:50%;font-size:23px;font-weight:600;">¡Hacenos tu pedido!</div>
           <div style="position:absolute;margin-top:160px;transform:translate(-50%, -50%);left:50%;font-size:23px;">092 544 718</div>
@@ -170,13 +170,12 @@
             const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
             if (isMobile) {
-              document.getElementById('preview').innerHTML = `<img src="${url}" alt="Menú generado" class="w-full max-w-[540px] h-auto rounded shadow cursor-pointer" onclick="abrirLightbox('${url}')" />`;
+              document.getElementById('preview').innerHTML = `<img src="${url}" alt="Menú generado" class="w-full max-w-[540px] h-auto rounded shadow cursor-pointer" />`;
               document.getElementById('descargar').href = url;
               document.getElementById('descargar').classList.remove('hidden');
               mensajeMovil.classList.remove('hidden');
             } else {
               canvas.classList.add("w-full", "max-w-[540px]", "h-auto", "rounded", "shadow", "cursor-pointer");
-              canvas.onclick = () => abrirLightbox(url);
               document.getElementById('preview').innerHTML = '';
               document.getElementById('preview').appendChild(canvas);
               const link = document.getElementById('descargar');
@@ -189,16 +188,6 @@
         });
       };
       reader.readAsDataURL(fondoInput.files[0]);
-    }
-
-    function abrirLightbox(url) {
-      document.getElementById('lightbox-img').src = url;
-      document.getElementById('lightbox').style.display = 'flex';
-    }
-
-    function cerrarLightbox() {
-      document.getElementById('lightbox').style.display = 'none';
-      document.getElementById('lightbox-img').src = '';
     }
   </script>
 </body>
